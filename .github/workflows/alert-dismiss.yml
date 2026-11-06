@@ -33,12 +33,10 @@ jobs:
                 repo,
                 state: 'open',
                 manifest: manifests.join(','),
-                per_page: 2,
+                per_page: 100,
               }
             )
 
-            console.log(alerts)
-            /*
             for (const al of alerts) {
               const res = await github.rest.dependabot.updateAlert({
                 owner,
@@ -51,4 +49,3 @@ jobs:
 
               console.log(`updated: alert_number=${res.data.number}, state=${res.data.state}`)
             }
-            */
