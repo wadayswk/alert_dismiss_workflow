@@ -33,19 +33,21 @@ jobs:
                 repo,
                 state: 'open',
                 manifest: manifests.join(','),
-                per_page: 100,
+                per_page: 2,
               }
             )
 
-            for (const al of alerts.data) {
-              const res = await github.rest.dependabot.updateAlert({
-                owner,
-                repo,
-                alert_number: al.number,
-                state: 'dismissed',
-                dismissed_reason: 'not_used',
-                dismissed_comment: 'updated by workflow',
-              })
+            console.log(alerts)
 
-              console.log(`updated: alert_number=${res.data.number}, state=${res.data.state}`)
-            }
+            # for (const al of alerts) {
+            #   const res = await github.rest.dependabot.updateAlert({
+            #     owner,
+            #     repo,
+            #     alert_number: al.number,
+            #     state: 'dismissed',
+            #     dismissed_reason: 'not_used',
+            #     dismissed_comment: 'updated by workflow',
+            #   })
+
+            #   console.log(`updated: alert_number=${res.data.number}, state=${res.data.state}`)
+            # }
