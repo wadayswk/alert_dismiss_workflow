@@ -38,16 +38,17 @@ jobs:
             )
 
             console.log(alerts)
+            /*
+            for (const al of alerts) {
+              const res = await github.rest.dependabot.updateAlert({
+                owner,
+                repo,
+                alert_number: al.number,
+                state: 'dismissed',
+                dismissed_reason: 'not_used',
+                dismissed_comment: 'updated by workflow',
+              })
 
-            # for (const al of alerts) {
-            #   const res = await github.rest.dependabot.updateAlert({
-            #     owner,
-            #     repo,
-            #     alert_number: al.number,
-            #     state: 'dismissed',
-            #     dismissed_reason: 'not_used',
-            #     dismissed_comment: 'updated by workflow',
-            #   })
-
-            #   console.log(`updated: alert_number=${res.data.number}, state=${res.data.state}`)
-            # }
+              console.log(`updated: alert_number=${res.data.number}, state=${res.data.state}`)
+            }
+            */
