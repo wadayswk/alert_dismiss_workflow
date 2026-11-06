@@ -1,0 +1,48 @@
+name: alert-dismiss
+
+on:
+  workflow_dispatch:
+
+permissions:
+  vulnerability-alerts: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Dependabot alerts auto dismissed
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const { owner, repo } = context.repo
+
+            const manifests = [
+              'example1/uv.lock',
+              'example2/package-lock.json',
+            ]
+
+            const alerts = await github.paginate(
+              github.rest.dependabot.listAlertsForRepo,
+              {
+                owner,
+                repo,
+                state: 'open',
+                manifest: manifests.join(','),
+                per_page: 100,
+              }
+            )
+
+            for (const al of alerts.data) {
+              const res = await github.rest.dependabot.updateAlert({
+                owner,
+                repo,
+                alert_number: al.number,
+                state: 'dismissed',
+                dismissed_reason: 'not_used',
+                dismissed_comment: 'updated by workflow',
+              })
+
+              console.log(`updated: alert_number=${res.data.number}, state=${res.data.state}`)
+            }
